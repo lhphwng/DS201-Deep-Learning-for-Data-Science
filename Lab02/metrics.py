@@ -1,4 +1,3 @@
-"""4 thang đo đánh giá: accuracy, precision, recall, F1 (macro)."""
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 
 

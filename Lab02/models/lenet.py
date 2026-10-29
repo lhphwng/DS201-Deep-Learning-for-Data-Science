@@ -51,23 +51,19 @@ class LeNet(nn.Module):
         )
 
     def forward(self, images: torch.Tensor):
-        ''''
-            images (bs, 28, 28)
-        '''
+        images = images.unsqueeze(1)                                                                                                                                                                        
 
-        images = images.unsqueeze(1) # (bs, 1, 28, 28)                                                                                                                                                                                
+        features = F.sigmoid(self.conv_1(images))
+        features = self.pooling_1(features)
 
-        features = F.sigmoid(self.conv_1(images)) # (bs, 6, 28, 28)
-        features = self.pooling_1(features) # (bs, 6, 14, 14)
+        features = F.sigmoid(self.conv_2(features))
+        features = self.pooling_2(features)
 
-        features = F.sigmoid(self.conv_2(features)) # (bs, 16, 10, 10)
-        features = self.pooling_2(features) # (bs, 16, 5, 5)
-
-        features = F.sigmoid(self.conv_3(features)) # (bs, 120, 1, 1)
-        features = features.squeeze(-1).squeeze(-1) # (bs, 120)                                                                                                                                                                        
+        features = F.sigmoid(self.conv_3(features))
+        features = features.squeeze(-1).squeeze(-1)                                                                                                                                                                      
         
-        features = F.sigmoid(self.fc(features)) # (bs, 84)
-        logits = self.output(features) # (bs, 10)
+        features = F.sigmoid(self.fc(features))
+        logits = self.output(features)
 
         return logits
 
